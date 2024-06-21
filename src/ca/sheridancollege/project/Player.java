@@ -5,45 +5,91 @@
  */
 package ca.sheridancollege.project;
 
+import com.example.blackjack.Hand;
+
 /**
  * A class that models each Player in the game. Players have an identifier, which should be unique.
  *
  * @author dancye
  * @author Paul Bonenfant Jan 2020
  */
-public abstract class Player {
+public class Player {
 
-    private String name; //the unique name for this player
+	private int bank;
+	private int bet;
+	private String name;
+	private Hand hand;
 
-    /**
-     * A constructor that allows you to set the player's unique ID
-     *
-     * @param name the unique ID to assign to this player.
-     */
-    public Player(String name) {
-        this.name = name;
-    }
+	public Player() {
+		bank = 100;
+		hand = new Hand();
+	}
 
-    /**
-     * @return the player name
-     */
-    public String getName() {
-        return name;
-    }
+	public int getBank() {
+		return bank;
+	}
 
-    /**
-     * Ensure that the playerID is unique
-     *
-     * @param name the player name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void bust() {
+		bank -= bet;
+		bet = 0;
+	}
 
-    /**
-     * The method to be overridden when you subclass the Player class with your specific type of Player and filled in
-     * with logic to play your game.
-     */
-    public abstract void play();
+	public void win() {
+		bank += bet;
+		bet = 0;
+	}
 
+	public void loss() {
+		bank -= bet;
+		bet = 0;
+	}
+
+	public void removeFromGame() {
+		bank = -1;
+	}
+
+	public void resetBank() {
+		bank = 0;
+	}
+
+	public void blackjack() {
+		bank += bet * 3 / 2; // Adjusted for blackjack payout
+		bet = 0;
+	}
+
+	public void push() {
+		bet = 0;
+	}
+
+	public void setBet(int newBet) {
+		bet = newBet;
+	}
+
+	public void setName(String name1) {
+		name = name1;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public int getTotal() {
+		return hand.calculateTotal();
+	}
+
+	public int getBet() {
+		return bet;
+	}
+
+	public void addCard(com.example.blackjack.Card card) {
+		hand.addCard(card);
+	}
+
+	public String getHandString() {
+		return "Cards: " + hand.toString();
+	}
+
+	public void clearHand() {
+		hand.clearHand();
+	}
 }
